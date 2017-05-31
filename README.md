@@ -1,2 +1,4 @@
 # cryptogram
-Group project for CS 340
+Welcome to Cryptogram!
+
+A Group Project for CS 340
