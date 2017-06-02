@@ -17,7 +17,7 @@
 		die('Could not connect: ' . mysql_error());
     }
 
-	$query = "SELECT pictureURL FROM CryptidPhotos";
+	$query = "SELECT pictureURL, description FROM CryptidPhotos";
 
 	$result = mysqli_query($conn, $query);
 	if (!$result) {
@@ -30,27 +30,20 @@
 	//	echo "<td><b>{$field->name}</b></td>";
 	//}
 
-  //echo "<h1>List {$table}</h1>";
-	//echo "<table border='1'><tr>";
-	// printing table headers
-	//for($i=0; $i<$fields_num; $i++) {	
-	//	$field = mysqli_fetch_field($result);	
-	//	echo "<td><b>{$field->name}</b></td>";
-	//}
-
+  echo "<div class='container'>
+          <div class='row'>";
   while($row = mysqli_fetch_row($result)) {	
-    echo "<div class='row'>
-            <div class='col-md-6'>
-              <div class='thumbnail'>";	
-		// $row is array... foreach( .. ) puts every element
-		// of $row to $cell variable	
-		foreach($row as $cell)		
-      echo "<img src='$cell' style='width:50%; height:50'>";
-
-    echo "    </div>
-            </div>
-          </div>";
-	}
+    echo "  <div class='col-md-4'>
+              <div class='thumbnail'>	
+                <img src='$row[0]' style='width:35%; height:35%'>
+                <div class='caption text-center'>
+                  <p>$row[1]</p>
+                </div>
+              </div>
+            </div>";
+  }
+  echo "  </div>
+        </div>";
 
 	mysqli_free_result($result);
 	mysqli_close($conn);
