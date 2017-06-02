@@ -8,9 +8,9 @@
 
 <?php
 	define('DB_HOST','classmysql.engr.oregonstate.edu');
-	define('DB_USER','cs340_bowenjos');
-	define('DB_PASSWORD','Z3nthB0rnOfL!ght');
-	define('DB_NAME','cs340_bowenjos');
+	define('DB_USER',' ');
+	define('DB_PASSWORD',' ');
+	define('DB_NAME',' ');
 
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -18,28 +18,20 @@
 		echo "Connection Failed";
 	}
 
-	$USERNAME = htmlspecialchars($_POST["username"]);
-	$FIRSTNAME = htmlspecialchars($_POST["firstName"]);
-	$LASTNAME = htmlspecialchars($_POST["lastName"]);
-	$EMAIL = htmlspecialchars($_POST["email"]);
-	$PASSWORD = htmlspecialchars($_POST["password"]);
-	$AGE = htmlspecialchars($_POST["age"]);
-	$check = 0;
+	$PICTUREURL = htmlspecialchars($_POST["pictureURL"]);
+	$DESCRIPTION = htmlspecialchars($_POST["description"]);
+	$TAG = htmlspecialchars($_POST["tag"]);
 
-	$sql = "SELECT username FROM Users";
-	$result = $conn->query($sql);
 
+	$NUMLIKES = 0;
+	$NUMDISLIKES = 0;
+	$TODAY = date("Y-m-d");
 	
-	while($row = $result->fetch_assoc()){
-		if($row["username"] == $USERNAME){
-			echo "Username taken already";
-			$check = 1;
-		}
-	}
-	
+	#use sessions and accounts to get later
+	$USER = 1;
 
-	if($USERNAME!="" and $FIRSTNAME!="" and $LASTNAME!="" and $EMAIL!="" and $PASSWORD!="" and $check=="0") {
-		$sql = "INSERT INTO Users (username, firstName, lastName, email, password, age) VALUES ('$USERNAME', '$FIRSTNAME', '$LASTNAME', '$EMAIL', '$PASSWORD', '$AGE')";
+	if($PICTUREURL!="") {
+		$sql = "INSERT INTO CryptidPhotos (uploadDate, pictureURL, numLikes, numDislikes, description) VALUES ('$TODAY', '$PICTUREURL', '$NUMLIKES', '$NUMDISLIKES', '$DESCRIPTION')";
 
 		if($conn->query($sql) === TRUE) {
 			echo "Success";
@@ -53,22 +45,6 @@
 
 <?php include 'header.html';?>
 <?php include 'createpost.html';?>
-
-<center>
-	<form action="createpost.php" method="post">
-		<fieldset>
-			<legend>Create New Post</legend>
-			Picture URL:<br>
-			<input type="url" name="pictureURL" value=""><br>
-			Description:<br>
-			<input type="text" name="description" value=""><br>
-			Tags (Comma Deliminated):<br>
-			<input type="text" name="tag" value=""><br>
-		
-			<input type="submit" value="submit">
-		</fieldset>
-	</form>
-</center>
 
 </body>
 </html>

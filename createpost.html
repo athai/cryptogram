@@ -7,20 +7,24 @@
 </head>
 
 <body>
+<center>
+	<form action="createpost.php" method="post" id="newpost">
+		<fieldset>
+			<legend>Create New Post</legend>
+			Picture URL:
+			<input type="url" name="pictureURL" value=""><br>
+			<input type="submit" value="submit">
+			<br>
+			Tags (Comma Deliminated):<br>
+			<input type="text" name="tag" value=""><br>
+		</fieldset>
+	</form>
 
-<form action="createpost.php" method="post">
-	<fieldset>
-		<legend>Create New Post</legend>
-		Picture URL:<br>
-		<input type="url" name="pictureURL" value=""><br>
-		Description:<br><br>
-		<input type="text" name="description" value=""><br>
-		Tags (Comma Deliminated):<br>
-		<input type="text" name="tag" value=""><br>
-		
-		<input type="submit" value="submit">
-	</fieldset>
-</form>
+	<textarea rows="4" cols="50" name="Description" form="newpost">
+	Enter a description for your photo...</textarea>
+
+</center>
+
 
 </body>
 </html>
