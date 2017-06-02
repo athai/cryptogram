@@ -37,15 +37,6 @@
 	//	$field = mysqli_fetch_field($result);	
 	//	echo "<td><b>{$field->name}</b></td>";
 	//}
-	//echo "</tr>\n";
-	//while($row = mysqli_fetch_row($result)) {	
-	//	echo "<tr>";	
-	//	// $row is array... foreach( .. ) puts every element
-	//	// of $row to $cell variable	
-	//	foreach($row as $cell)		
-	//		echo "<td>$cell</td>";	
-	//	echo "</tr>\n";
-	//}
 
   while($row = mysqli_fetch_row($result)) {	
     echo "<div class='row'>
