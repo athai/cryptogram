@@ -6,10 +6,8 @@
   </head>
 <body>
 
-<?php
-  include 'header.html';
-  include 'homepage.html';
-?>
+<?php include 'header.html';?>
+<?php include 'homepage.html';?>
 
 </body>
 </html>
