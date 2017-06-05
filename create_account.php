@@ -7,7 +7,7 @@
 
   <body>
 
-	<?php include 'header.html';?>
+    <?php include 'header.html';?>
 
 	<h1>Create an Account</h1>
 
@@ -21,7 +21,7 @@
 
     <?php
 	  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	    include 'db_init.php';
+	    include 'connectvarsEECS.php';
 	    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	    if (!$conn) {
 	  	  die('could not connect: ' . mysqli_error());
