@@ -8,9 +8,9 @@
 
 <?php
 	define('DB_HOST','classmysql.engr.oregonstate.edu');
-	define('DB_USER',' ');
-	define('DB_PASSWORD',' ');
-	define('DB_NAME',' ');
+	define('DB_USER','cs340_bowenjos');
+	define('DB_PASSWORD','Z3nthB0rnOfL!ght');
+	define('DB_NAME','cs340_bowenjos');
 
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -38,6 +38,33 @@
 		} else {
 			echo "Error:" . $sql . "<br>" . $conn->error;
 		}
+	}
+
+	
+	$TAGS = explode(",", $TAG);
+	
+	foreach($TAGS as $TOG) {
+		
+		$check = 0;
+
+		$sql = "SELECT text FROM Tags";
+		$result = $conn->query($sql);
+			
+		while($row = $result->fetch_assoc()){
+			if($row["text"] === $TOG){
+				$check = 1;
+			}
+		}
+
+		if($check === 0){
+			$sql = "INSERT INTO Tags (text) VALUES ('$TOG')";
+			if($conn->query($sql) === TRUE){
+				echo "Success";
+			} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
+			}
+		}
+		
 	}
 
 	$conn->close();
