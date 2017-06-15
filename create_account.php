@@ -21,22 +21,22 @@
 
     <?php
 	  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-	    include 'connectvarsEECS.php';
-	    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	    if (!$conn) {
-	  	  die('could not connect: ' . mysqli_error());
+        include 'connectvarsEECS.php';
+	    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	    if ($conn->connect_errno) {
+          die('could not connect: ' . $conn->connect_error);
+          exit();
 	    }
-	    $stmt = $conn -> prepare("INSERT INTO CryptogramUsers (username, email, password) VALUES (?, ?, ?)");
-	    $stmt -> bind_param("sss", $username, $email, $password);
+	    $stmt = $conn->prepare("INSERT INTO CryptogramUsers (username, email, password) VALUES (?, ?, ?)");
+	    $stmt->bind_param("sss", $username, $email, $password);
 
 	    if (isset($_POST['submit'])) {
 	  	  $error = false;
 	  	  $username = $_POST['username'];
-	  	  $sql = "SELECT username FROM CryptogramUsers";
-	  	  if (mysqli_query($conn, $sql)) {
-   	        $data = $conn -> query($sql);
-            if ($data -> num_rows > 0) {
-              while($row = $data -> fetch_assoc()) {
+		  $sql = "SELECT username FROM CryptogramUsers";
+		  if ($result = $conn->query($sql)) {
+            if ($result->num_rows > 0) {
+              while($row = $result->fetch_assoc()) {
                 if ($row["username"] == $username) {
                   $error = true;
                   echo "That username is already taken. ";
@@ -63,7 +63,7 @@
             echo "Please redo your form. ";
           }
           else {
-            $stmt -> execute();
+            $stmt->execute();
             if ($stmt) {
             	echo "Your account was created! ";
             }
@@ -72,7 +72,7 @@
             }
           }
         }
-        mysqli_close($conn);
+        $conn->close();
       }
     ?>
   </body>
