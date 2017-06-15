@@ -17,7 +17,8 @@
 		die('Could not connect: ' . mysql_error());
     }
 
-	$query = "SELECT pictureURL, description, uploadDate FROM CryptidPhotos";
+  $query = "SELECT pictureURL, description, uploadDate, numLikes, numDislikes
+            FROM CryptidPhotos";
 
 	$result = mysqli_query($conn, $query);
 	if (!$result) {
@@ -35,10 +36,16 @@
     echo "<div class='card'>
             <img class='card-img-top img-fluid' src='$row[0]' style='width:100%; height:45%;'>
             <div class='card-block'>
-              <p class='card-text'>$row[1]</p>
               <p class='card-text'>
                 <small class='text-muted'>Uploaded $row[2]</small>
               </p>
+              <p class='card-text'>$row[1]</p>
+              <button type='button' class='btn btn-outline-primary' data-toggle='button' aria-pressed='false' autocomplete='off'>
+                $row[3] BELIEVE
+              </button>
+              <button type='button' class='btn btn-outline-danger' data-toggle='button' aria-pressed='false' autocomplete='off'>
+                $row[4] DEBUNK
+              </button>
             </div>
           </div>";
   }
