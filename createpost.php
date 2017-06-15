@@ -22,7 +22,6 @@
 	$DESCRIPTION = htmlspecialchars($_POST["description"]);
 	$TAG = htmlspecialchars($_POST["tag"]);
 
-
 	$NUMLIKES = 0;
 	$NUMDISLIKES = 0;
 	$TODAY = date("Y-m-d");
@@ -35,7 +34,7 @@
 
 		if($conn->query($sql) === TRUE) {
 			$picid = $conn->insert_id;
-			echo $picid;
+		
 			/* INSERT INTO uploaded (pictureID, UserID) VALUES (LastID, *????*) */
 		} else {
 			echo "Error:" . $sql . "<br>" . $conn->error . "<br>";
@@ -75,6 +74,27 @@
 				echo "Error: " . $sql . "<br>" . $conn->error . "<br>";
 			}
 		}
+
+		$sql = "SELECT * FROM CryptogramUsers";
+		$result = $conn->query($sql);
+
+		while($row = $result->fetch_assoc()){
+			if($row["username"] === $TOG){
+				$userid = $row["UserID"];
+				$sql = "SELECT * FROM Cryptids";
+				$resulttwo = $conn->query($sql);
+				while($rowtwo = $resulttwo->fetch_assoc()){
+					if($rowtwo["userID"] === $userid){
+						$cryptidid = $rowtwo["cryptidID"];
+						$sql = "INSERT INTO Pictured (pictureID, cryptidID) VALUES ('$picid', '$cryptidid')";
+						if($conn->query($sql) === FALSE){
+							echo "Error: " . $sql . "<br>" . $conn->error . "<br>";
+						}
+					}
+				}
+			}
+		}
+
 		
 	}
 
