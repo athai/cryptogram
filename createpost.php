@@ -34,34 +34,45 @@
 		$sql = "INSERT INTO CryptidPhotos (uploadDate, pictureURL, numLikes, numDislikes, description) VALUES ('$TODAY', '$PICTUREURL', '$NUMLIKES', '$NUMDISLIKES', '$DESCRIPTION')";
 
 		if($conn->query($sql) === TRUE) {
-			echo "Success";
+			$picid = $conn->insert_id;
+			echo $picid;
+			/* INSERT INTO uploaded (pictureID, UserID) VALUES (LastID, *????*) */
 		} else {
-			echo "Error:" . $sql . "<br>" . $conn->error;
+			echo "Error:" . $sql . "<br>" . $conn->error . "<br>";
 		}
 	}
 
-	
+	$TAG = str_replace(' ','',$TAG);	
 	$TAGS = explode(",", $TAG);
 	
 	foreach($TAGS as $TOG) {
 		
 		$check = 0;
 
-		$sql = "SELECT text FROM Tags";
+		$sql = "SELECT * FROM Tags";
 		$result = $conn->query($sql);
 			
 		while($row = $result->fetch_assoc()){
 			if($row["text"] === $TOG){
 				$check = 1;
+				$tagid = $row["TagID"];
+				$sql = "INSERT INTO Tagged (TagID, pictureID) VALUES ('$tagid', '$picid')";
+				if($conn->query($sql) === TRUE){
+					echo "Sucess";
+				} else {
+					echo "Error: " . $sql . "<br>" . $conn->error . "<br>";
+				}
 			}
 		}
 
 		if($check === 0){
 			$sql = "INSERT INTO Tags (text) VALUES ('$TOG')";
 			if($conn->query($sql) === TRUE){
-				echo "Success";
+				$tagid = $conn->insert_id;
+				$sql = "INSERT INTO Tagged (TagID, pictureID) VALUES ('$tagid', '$picid')";
+				$conn->query($sql);
 			} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
+				echo "Error: " . $sql . "<br>" . $conn->error . "<br>";
 			}
 		}
 		
