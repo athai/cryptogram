@@ -34,7 +34,7 @@
 
 		if($conn->query($sql) === TRUE) {
 			$picid = $conn->insert_id;	
-			$sql = "INSERT INTO uploaded (pictureID, UserID) VALUES ('$picid', '$userid')";
+			$sql = "INSERT INTO Uploaded (pictureID, UserID) VALUES ('$picid', '$userid')";
 			$result = $conn->query($sql);
 		} else {
 			echo "Error:" . $sql . "<br>" . $conn->error . "<br>";
