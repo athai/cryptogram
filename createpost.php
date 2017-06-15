@@ -27,15 +27,15 @@
 	$TODAY = date("Y-m-d");
 	
 	#use sessions and accounts to get later
-	$USER = 1;
+	$userid = 1;
 
 	if($PICTUREURL!="") {
 		$sql = "INSERT INTO CryptidPhotos (uploadDate, pictureURL, numLikes, numDislikes, description) VALUES ('$TODAY', '$PICTUREURL', '$NUMLIKES', '$NUMDISLIKES', '$DESCRIPTION')";
 
 		if($conn->query($sql) === TRUE) {
-			$picid = $conn->insert_id;
-		
-			/* INSERT INTO uploaded (pictureID, UserID) VALUES (LastID, *????*) */
+			$picid = $conn->insert_id;	
+			$sql = "INSERT INTO uploaded (pictureID, UserID) VALUES ('$picid', '$userid')";
+			$result = $conn->query($sql);
 		} else {
 			echo "Error:" . $sql . "<br>" . $conn->error . "<br>";
 		}
