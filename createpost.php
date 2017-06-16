@@ -7,11 +7,7 @@
 <body>
 
 <?php
-	define('DB_HOST','classmysql.engr.oregonstate.edu');
-	define('DB_USER','cs340_bowenjos');
-	define('DB_PASSWORD','Z3nthB0rnOfL!ght');
-	define('DB_NAME','cs340_bowenjos');
-
+	include 'connectvarsEECS.php';
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 	if($conn->connect_error){
