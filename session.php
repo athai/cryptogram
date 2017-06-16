@@ -1,19 +1,15 @@
 <?php
-  include 'connectvarsEECS.php';
-  $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+include 'connectvarsEECS.php';
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-  session_start();
-  
-  $user_check = $_SESSION['login_user'];
-  $ses_sql = mysqli_query($conn, "SELECT username FROM CryptogramUsers WHERE username='$user_check'");
+session_start();
 
-  $row = mysqli_fetch_array($ses_sql, MYSQLI_ASSOC);
+$user_check = $_SESSION['login_user'];
+$ses_sql = $conn->query("SELECT username FROM CryptogramUsers WHERE username='$user_check'");
 
-  $login_session = $row['username'];
+$row = $ses_sql->fetch_array(MYSQLI_ASSOC);
 
-  if(!isset($SESSION['login_user'])) {
-    header("location: login.php");
-  }
+$login_session = $row['username'];
 
-  mysqli_close($conn);
+$conn->close();
 ?>
