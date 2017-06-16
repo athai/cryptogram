@@ -20,7 +20,7 @@
   // CHANGE THIS LATER: Should grab id of user who is currently logged in
   $query = "SELECT username, profilePicture, favoriteCryptid, description
             FROM CryptogramUsers WHERE userID=5";
-  $qpics = "SELECT pictureURL, description FROM CryptidPhotos LIMIT 3";
+  $qpics = "SELECT COUNT(*), pictureURL, description FROM CryptidPhotos LIMIT 3";
   $qcomm = "SELECT text, postDate FROM Comments LIMIT 3";
 
 	$result = mysqli_query($conn, $query);
@@ -44,11 +44,10 @@
 	//	echo "<td><b>{$field->name}</b></td>";
 	//}
 
-  echo "<div class='container' style='margin-left:10px'>";
+  echo "<div class='container' style='margin-left:20px'>";
   echo "<div class='row'>";
-  echo "<div class='card-columns'>";
   while($row = mysqli_fetch_row($result)) {	
-    echo "<div class='card'>
+    echo "<div class='card' style='width:30%; height:20%'>
             <img class='card-img-top img-fluid' src='$row[1]' style='width:100%; height:45%;'>
             <div class='card-block'>
               <p class='card-text'>
@@ -58,34 +57,36 @@
             </div>
           </div>";
   }
-  echo "</div>";
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
-          <img class="d-block img-fluid" src="..." alt="First slide">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block img-fluid" src="..." alt="Second slide">
-        </div>
-        <div class="carousel-item">
-          <img class="d-block img-fluid" src="..." alt="Third slide">
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
+  //echo "<div class='card-group' style='padding-left:10px; width:70%'; height:20%;>";
+  //while($row = mysqli_fetch_row($pic_results)) {	
+  //  echo "<div class='card'>
+  //          <img class='card-img-top' src='$row[1]' style='width:15%; height:%15'>
+  //        </div>";
+  //}
+  ////  <div class='card'>
+  ////    <img class='card-img-top' src='...' alt='card image cap'>
+  ////  </div>
+  ////  <div class='card'>
+  ////    <img class='card-img-top' src='...' alt='card image cap'>
+  ////  </div>
+  ////  </div>";
+  //echo "</div>";
+
+  echo "<table class='table table-striped' style='padding-left:15px; width:70%'>
+          <thead>
+            <tr>
+              <th>Photos</th>
+            </tr>
+          </thead>";
+  echo "<tbody>";
+  while($row = mysqli_fetch_row($pic_results)) {	
+    echo "<tr>
+            <td>$row[1]</td>
+          </tr>";
+  }
+  echo "</tbody>";
+  echo "</table>";
 
   echo "</div>";  // closes row div
   echo "</div>";  // closes container div
@@ -139,7 +140,36 @@
     //  </div>
     //</div>";
 
+  //<div id='carouselExampleIndicators' class='carousel slide' data-ride='carousel'>
+  //  <ol class='carousel-indicators'>
+  //    <li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
+  //    <li data-target='#carouselExampleIndicators' data-slide-to='1'></li>
+  //    <li data-target='#carouselExampleIndicators' data-slide-to='2'></li>
+  //  </ol>
+  //  <div class='carousel-inner' role='listbox'>
+  //    <div class='carousel-item active'>
+  //      <img class='d-block img-fluid' src='...' alt='First slide'>
+  //    </div>
+  //      <div class='carousel-item active'>
+  //      <img class='d-block img-fluid' src='...' alt='2nd slide'>
+  //    </div>
+  //    <div class='carousel-item active'>
+  //      <img class='d-block img-fluid' src='...' alt='3rd slide'>
+  //    </div>
+  //  </div>
+  //  <a class='carousel-control-prev' href='#carouselExampleIndicators' role='button' data-slide='prev'>
+  //    <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+  //    <span class='sr-only'>Previous</span>
+  //  </a>
+  //  <a class='carousel-control-next' href='#carouselExampleIndicators' role='button' data-slide='next'>
+  //    <span class='carousel-control-next-icon' aria-hidden='true'></span>
+  //    <span class='sr-only'>Next</span>
+  //  </a>
+  //</div>
+
   mysqli_free_result($result);
+  mysqli_free_result($results);
+  mysqli_free_result($results);
 	mysqli_close($conn);
 	?>
 </body>
