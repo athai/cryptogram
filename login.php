@@ -29,5 +29,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $conn->close();
 include 'header.html';
-include 'login.html';
 ?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Log in</title>
+  </head>
+
+  <body>
+    <h1>Log in</h1>
+    
+    <form action="" method="POST">
+      Username: <input type="text" name="username" required><br>
+      Password: <input type="password" name="password" required><br>
+      <input type="submit" name="submit" value="SUBMIT">
+	</form>
+
+  </body>
+</html>
