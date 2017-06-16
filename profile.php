@@ -6,7 +6,7 @@
 	</head>
 <body>
 
-<?php include 'header2.html';?>
+<?php include 'header.html';?>
 
 <?php
 // change the value of $dbuser and $dbpass to your username and password
