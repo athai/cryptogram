@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$result = $stmt->get_result();
 			if ($result->num_rows == 1) {
 				$_SESSION['login_user'] = $username;
-				header("location: welcome.php");  // change to actual home later
+				header("location: home.php");
 			}
 			else {
 				$error = "Your username or password is invalid.";

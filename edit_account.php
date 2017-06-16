@@ -1,6 +1,6 @@
 <?php
-include 'header.html';
 include 'session.php';
+include 'header.html';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	include 'connectvarsEECS.php';
