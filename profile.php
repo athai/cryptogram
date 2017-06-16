@@ -17,67 +17,104 @@
 		die('Could not connect: ' . mysql_error());
     }
 
+  // CHANGE THIS LATER: Should grab id of user who is currently logged in
   $query = "SELECT username, profilePicture, favoriteCryptid, description
-            FROM CryptogramUsers";
+            FROM CryptogramUsers WHERE userID=5";
+  $qpics = "SELECT pictureURL, description FROM CryptidPhotos LIMIT 3";
+  $qcomm = "SELECT text, postDate FROM Comments LIMIT 3";
 
 	$result = mysqli_query($conn, $query);
 	if (!$result) {
 		die("Query to show fields from table failed");
 	}
-	
+
+	$pic_results = mysqli_query($conn, $qpics);
+	if (!$pic_results) {
+		die("Query to show fields from table failed");
+	}
+
+	$comm_results = mysqli_query($conn, $qcomm);
+	if (!$comm_results) {
+		die("Query to show fields from table failed");
+	}
+
 	$num_fields = mysqli_num_fields($result);
 	//for($i=0; $i<$num_fields; $i++) {	
 	//	$field = mysqli_fetch_field($result);	
 	//	echo "<td><b>{$field->name}</b></td>";
 	//}
 
+  echo "<div class='container' style='margin-left:10px'>";
+  echo "<div class='row'>";
   echo "<div class='card-columns'>";
   while($row = mysqli_fetch_row($result)) {	
     echo "<div class='card'>
-            <img class='card-img-top img-fluid' src='$row[0]' style='width:100%; height:45%;'>
+            <img class='card-img-top img-fluid' src='$row[1]' style='width:100%; height:45%;'>
             <div class='card-block'>
               <p class='card-text'>
-                <small class='text-muted'>Uploaded $row[2]</small>
+                <small class='text-muted'>Favorite Cryptid: $row[2]</small>
               </p>
-              <p class='card-text'>$row[1]</p>
-              <button type='button' class='btn btn-outline-primary' data-toggle='button' aria-pressed='false' autocomplete='off'>
-                $row[3] BELIEVE
-              </button>
+              <p class='card-text'>$row[3]</p>
             </div>
           </div>";
   }
   echo "</div>";
 
+
+
+  echo "</div>";  // closes row div
+  echo "</div>";  // closes container div
+
+  //echo "<div class='card-group'>";
+  //while($row = mysqli_fetch_row($pic_results)) {	
+  echo "<div class='container' style='align: center'>";
+  echo "<table class='table table-striped'>
+          <thead>
+            <tr>
+              <th>Recent Comments</th>
+              <th>Date Posted</th>
+            </tr>
+          </thead>";
+  echo "<tbody>";
+  while($row = mysqli_fetch_row($comm_results)) {	
+    echo "<tr>
+            <td>$row[0]</td>
+            <td>$row[1]</td>
+          </tr>";
+  }
+  echo "</tbody>";
+  echo "</table>";
+  echo "</div>";  // closes container div
+  //echo "</div>";
+
 // Use the following as a template to display a users top photos
 
-//<div class="card-group">
-//  <div class="card">
-//    <img class="card-img-top" src="..." alt="Card image cap">
-//    <div class="card-block">
-//      <h4 class="card-title">Card title</h4>
-//      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-//      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-//    </div>
-//  </div>
-//  <div class="card">
-//    <img class="card-img-top" src="..." alt="Card image cap">
-//    <div class="card-block">
-//      <h4 class="card-title">Card title</h4>
-//      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-//      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-//    </div>
-//  </div>
-//  <div class="card">
-//    <img class="card-img-top" src="..." alt="Card image cap">
-//    <div class="card-block">
-//      <h4 class="card-title">Card title</h4>
-//      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-//      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-//    </div>
-//  </div>
-//</div>
+    //<div class='card'>
+    //  <img class='card-img-top' src='...' alt='card image cap'>
+    //  <div class='card-block'>
+    //    <h4 class='card-title'>card title</h4>
+    //    <p class='card-text'>this is a wider card with supporting text below as a natural lead-in to additional content. this content is a little bit longer.</p>
+    //    <p class='card-text'><small class='text-muted'>last updated 3 mins ago</small></p>
+    //  </div>
+    //</div>
+    //<div class='card'>
+    //  <img class='card-img-top' src='...' alt='card image cap'>
+    //  <div class='card-block'>
+    //    <h4 class='card-title'>card title</h4>
+    //    <p class='card-text'>this card has supporting text below as a natural lead-in to additional content.</p>
+    //    <p class='card-text'><small class='text-muted'>last updated 3 mins ago</small></p>
+    //  </div>
+    //</div>
+    //<div class='card'>
+    //  <img class='card-img-top' src='...' alt='card image cap'>
+    //  <div class='card-block'>
+    //    <h4 class='card-title'>card title</h4>
+    //    <p class='card-text'>this is a wider card with supporting text below as a natural lead-in to additional content. this card has even longer content than the first to show that equal height action.</p>
+    //    <p class='card-text'><small class='text-muted'>last updated 3 mins ago</small></p>
+    //  </div>
+    //</div>";
 
-	mysqli_free_result($result);
+  mysqli_free_result($result);
 	mysqli_close($conn);
 	?>
 </body>
