@@ -1,26 +1,25 @@
 <?php
   include 'connectvarsEECS.php';
   session_start();
-  $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  if (!$conn) {
-    die('could not connect: ' . mysqli_error());
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  if ($conn->connect_errno) {
+    die('could not connect: ' . $conn->connect_error);
   }
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $stmt = $conn -> prepare("SELECT UserID FROM CryptogramUsers WHERE username=? AND password=?");
+    $stmt = $conn->prepare("SELECT UserID FROM CryptogramUsers WHERE username=? AND password=?");
 
     if (isset($_POST['submit'])) {
-  	  $username = mysqli_real_escape_string($conn, $_POST['username']);
-      $password = mysqli_real_escape_string($conn, $_POST['password']);
-      if ($stmt) {
-        $stmt -> bind_param("ss", $username, $password);
-        $stmt -> execute();
-    	$result = $stmt -> get_result();
-    	if ($result -> num_rows == 1) {
-          session_register("username");
-    	  $_SESSION['login_user'] = $username;
-    	  header("location: welcome.php");
+  	  $username = $conn->real_escape_string($_POST['username']);
+      $password = $conn->real_escape_string($_POST['password']);
+	  if ($stmt) {
+        $stmt->bind_param("ss", $username, $password);
+        $stmt->execute();
+		$result = $stmt->get_result();
+		if ($result->num_rows == 1) {
+		  $_SESSION['login_user'] = $username;
+		  header("location: welcome.php");  // change to actual home later
     	}
     	else {
           $error = "Your username or password is invalid.";
@@ -29,7 +28,7 @@
       }
     }
   }
-  mysqli_close($conn);
+  $conn->close();
 ?>
 
 <!DOCTYPE html>
