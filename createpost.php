@@ -2,6 +2,7 @@
 include 'session.php';
 include 'connectvarsEECS.php';
 
+// if user isn't logged in, redirect them to the login.
 if (empty($login_session)) {
 	header("location: login.php");
 }
@@ -20,14 +21,16 @@ $NUMLIKES = 0;
 $NUMDISLIKES = 0;
 $TODAY = date("Y-m-d");
 
-#use sessions and accounts to get later
+// Identify the user who is currently logged in.
 $userid = $login_id;
 
 if($PICTUREURL!="") {
+	// add the new photo into the photos table.
 	$sql = "INSERT INTO CryptidPhotos (uploadDate, pictureURL, numLikes, numDislikes, description) VALUES ('$TODAY', '$PICTUREURL', '$NUMLIKES', '$NUMDISLIKES', '$DESCRIPTION')";
 
 	if($conn->query($sql) === TRUE) {
-		$picid = $conn->insert_id;	
+		// add the new upload into the upload records table.
+		$picid = $conn->insert_id;
 		$sql = "INSERT INTO Uploaded (pictureID, UserID) VALUES ('$picid', '$userid')";
 		$result = $conn->query($sql);
 	} else {

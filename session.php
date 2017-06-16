@@ -9,6 +9,7 @@ $ses_sql = $conn->query("SELECT username, UserID FROM CryptogramUsers WHERE user
 
 $row = $ses_sql->fetch_array(MYSQLI_ASSOC);
 
+// store both the user's username and ID for convenience.
 $login_session = $row['username'];
 $login_id = $row['UserID'];
 

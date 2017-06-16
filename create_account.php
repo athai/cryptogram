@@ -11,6 +11,7 @@
 
 	<h1>Create an Account</h1>
 
+	<!-- html form for user's account creation -->
 	<form action="create_account.php" method="POST">
 	  Username: <input type="text" name="username" required><br>
 	  Email: <input type="email" name="email" required><br>
@@ -20,6 +21,7 @@
 	</form>
 
 <?php
+// if the request is POST, prepare to process the input and connect to the db
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	include 'connectvarsEECS.php';
 	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -27,12 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		die('could not connect: ' . $conn->connect_error);
 		exit();
 	}
+	// prepared statement: prepare to insert a new user record into the users
+	// table, using the received POST values
 	$stmt = $conn->prepare("INSERT INTO CryptogramUsers (username, email, password) VALUES (?, ?, ?)");
 	$stmt->bind_param("sss", $username, $email, $password);
 
 	if (isset($_POST['submit'])) {
 		$error = false;
 		$username = $_POST['username'];
+		// check if new user's desired username is already taken by another
+		// user in the db:
 		$sql = "SELECT username FROM CryptogramUsers";
 		if ($result = $conn->query($sql)) {
 			if ($result->num_rows > 0) {
@@ -44,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				}
 			}
 		}
+		// ensure username is legal
 		if (!preg_match("/^[A-Za-z][A-Za-z0-9]{2,14}$/", $username)) {
 			$error = true;
 			echo "Username must be between 3 and 15 characters, and can only contain letters and numbers. ";
@@ -51,17 +58,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$pw_repeat = $_POST['pw_repeat'];
+		// enforce length of desired password
 		if (strlen($password) < 8 || strlen($password) > 15) {
 			$error = true;
 			echo "Password must be between 8 and 15 characters. ";
 		}
+		// make sure the user entered their password twice correctly
 		if ($password != $pw_repeat) {
 			$error = true;
 			echo "Passwords don't match. ";
 		}
+		// if anything went wrong, don't allow proper form submission.
 		if ($error) {
 			echo "Please redo your form. ";
 		}
+		// otherwise we can safely execute the sql.
 		else {
 			$stmt->execute();
 			if ($stmt) {

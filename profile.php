@@ -11,10 +11,9 @@ if (!$conn) {
 	die('Could not connect: ' . mysql_error());
 }
 
-// CHANGE THIS LATER: Should grab id of user who is currently logged in
 $query = "SELECT username, profilePicture, favoriteCryptid, description
 	FROM CryptogramUsers WHERE UserID='$login_id'";
-$qpics = "SELECT COUNT(*), pictureURL, description FROM CryptidPhotos LIMIT 5";
+$qpics = "SELECT uploadDate, pictureURL, description FROM CryptidPhotos LIMIT 5";
 $qcomm = "SELECT text, postDate FROM Comments LIMIT 3";
 
 $result = mysqli_query($conn, $query);

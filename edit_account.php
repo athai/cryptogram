@@ -45,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			echo $error;
 		}
 		else {
+			// construct a string that will serve as our SQL statement, based
+			// on the fields the user wants to update.
 			$update_str = "UPDATE CryptogramUsers SET ";
 			$fields = array(
 				"username"=>$username, "email"=>$email,
@@ -74,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </head>
 
   <body>
+	<!-- html for for editing the user's account. only accessible if the user
+is logged in. -->
 	<?php if(!empty($login_session)) : ?>
 	<h1>Edit your account</h1>
 	<p>Leave fields you wish to remain unchanged blank.</p>
